@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/94512489ca.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="music-player">
+            <nav class="navbar">
+                <div class="circle">
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </div>
+                <div class="circle">
+                    <i class="fa-solid fa-bars"></i>
+
+                </div>
+            </nav>
+            <img src="images//profile.jpg" class="song-img" id="profile"/>
+            <h1 id="title">Despacito</h1>
+            <p id="description">Lonfekwf frehf fwefwjev</p>
+            <audio controls id="song">
+                
+
+            </audio>
+            <input type="range" value="0" id="progress" />
+            <div class="controls">
+                <div><i onclick="previous()" class="fa-solid fa-backward"></i></div>
+                <div><i onclick="playpause()" class="fa-solid fa-play" id="playbutton"></i></div>
+                <div>
+                    <i onclick="next()"    class="fa-solid fa-forward"></i>
+                </div>
+                
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+       let songIndex = 0;
+let ArraySongs = [
+    {
+        name: "marfrf",
+        profileimage: "/images/profile.jpg",
+        song: "/images/control.mp3",
+        description: "frefre"
+    },
+    {
+        name: "marina",
+        profileimage: "/images/Hameeeen.jpg",
+        song: "/images/dont.mp3",
+        description: "fcewdfw"
+    },
+    {
+        name: "drfe",
+        profileimage: "/images/reyan.jpg",
+        song: "/images/truth.mp3",
+        description: "fcsfewf"
+    },
+    {
+        name: "ffr",
+        profileimage: "/images/thefull.jpg",
+        song: "/images/Gardens.mp3",
+        description: "c snfcwsf"
+    }
+];
+
+let progress = document.getElementById('progress');
+let song = document.getElementById("song");
+let playbutton = document.getElementById("playbutton");
+let title = document.getElementById("title");
+let description = document.getElementById("description");
+let profile = document.getElementById("profile");
+
+function loadSong(index) {
+    let currentSong = ArraySongs[index];
+    song.src = currentSong.song;
+    song.load(); // <== Add this to load the new song!
+    title.innerHTML = currentSong.name;
+    description.innerHTML = currentSong.description;
+    profile.src = currentSong.profileimage;
+}
+loadSong(songIndex);
+
+function playpause() {
+    if (playbutton.classList.contains('fa-pause')) {
+        song.pause();
+        playbutton.classList.remove("fa-pause");
+        playbutton.classList.add("fa-play");
+    } else {
+        song.play();
+        playbutton.classList.add("fa-pause");
+        playbutton.classList.remove("fa-play");
+    }
+}
+
+function next() {
+    songIndex++;
+    if (songIndex >= ArraySongs.length) {
+        songIndex = 0;
+    }
+    loadSong(songIndex);
+    song.play();
+    playbutton.classList.add("fa-pause");
+    playbutton.classList.remove("fa-play");
+}
+
+function previous() {
+    songIndex--;
+    if (songIndex < 0) {
+        songIndex = ArraySongs.length - 1;
+    }
+    loadSong(songIndex);
+    song.play();
+    playbutton.classList.add("fa-pause");
+    playbutton.classList.remove("fa-play");
+}
+
+// Update progress bar while playing
+song.addEventListener('timeupdate', () => {
+    progress.value = song.currentTime;
+});
+
+// When progress bar is changed manually
+progress.onchange = function () {
+    song.currentTime = progress.value;
+    song.play();
+    playbutton.classList.add("fa-pause");
+    playbutton.classList.remove("fa-play");
+};
+
+// Set max range once song metadata is loaded
+song.onloadedmetadata = function () {
+    progress.max = song.duration;
+};
+        </script>
+
+</body>
+
+</html>
